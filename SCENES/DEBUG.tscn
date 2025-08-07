@@ -1,3 +1,12 @@
-[gd_scene format=3 uid="uid://dkidgct3tu1a2"]
+[gd_scene load_steps=3 format=3 uid="uid://dkidgct3tu1a2"]
+
+[ext_resource type="PackedScene" uid="uid://bvmmtj4m431pf" path="res://SCENES/PLAYER.tscn" id="1_stgt1"]
+[ext_resource type="PackedScene" uid="uid://dxxn7auxohph1" path="res://SCENES/PLATAFORM.tscn" id="2_jby5s"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_stgt1")]
+position = Vector2(406, 102)
+
+[node name="Plataform" parent="." instance=ExtResource("2_jby5s")]
+position = Vector2(409, 173)

@@ -1,3 +1,20 @@
-[gd_scene format=3 uid="uid://bvmmtj4m431pf"]
+[gd_scene load_steps=4 format=3 uid="uid://bvmmtj4m431pf"]
+
+[ext_resource type="Script" uid="uid://b2l78s76sp68m" path="res://SCRIPTS/PlayerScript.cs" id="1_8glmf"]
+[ext_resource type="Texture2D" uid="uid://b1dgvitqsmvho" path="res://SPRITES/playerPH.png" id="2_pqno4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8glmf"]
+size = Vector2(16, 16)
 
 [node name="Player" type="Node2D"]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+gravity_scale = 0.2
+linear_damp = -1.0
+script = ExtResource("1_8glmf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("RectangleShape2D_8glmf")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+texture = ExtResource("2_pqno4")
