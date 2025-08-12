@@ -7,7 +7,7 @@ public partial class PlayerBodyScript : CharacterBody2D
     private const float gravity = 5f; // variavel da gravidade
     private Godot.Vector2 speed = new Godot.Vector2(0, 0); // vetor da velocidade dos movimentos do player
     private Godot.Vector2 mouseCoords = new Godot.Vector2(0, 0); // Posição do mouse (X,Y)
-    private const int ricochet = 40; // Força do ricochete
+    private Godot.Vector2 ricochet = new Godot.Vector2(100, 50); // Força do ricochete
     private Godot.Vector2 dir; // Direção do ricochete
     public override void _Ready()
     {
@@ -47,15 +47,49 @@ public partial class PlayerBodyScript : CharacterBody2D
             dir = GetDir(this.Position, mouseCoords); // Pegando a direção do ricochete
             speed = new Godot.Vector2(0, 0); // resetando a velocidade
             // Aplicando o ricochete
-            speed.X += ricochet * dir.X;
-            speed.Y += ricochet * dir.Y;
+            speed.X = ricochet.X * GetCos(this.Position, mouseCoords, true) * dir.X;
+            speed.Y += ricochet.Y * GetCos(this.Position, mouseCoords, false) * dir.Y;
+            GD.Print("COS X = ", GetCos(this.Position, mouseCoords, true));
+            GD.Print("COS Y = ", GetCos(this.Position, mouseCoords, false));
         }
 
-
+        // aplicando as variações nos eixos de velocidade (causa tanto a gravidade quanto o ricochete)
         this.Velocity = new Godot.Vector2(speed.X, speed.Y * gravity);
         MoveAndSlide();
     }
 
+    private float GetCos(Godot.Vector2 pCoords, Godot.Vector2 mCoords, bool axle)
+    {
+        Godot.Vector2 peccaries = pCoords - mCoords; // pegando os catetos
+        // declarando variavel da hipotenusa e do cosseno
+        int hypotenuse;
+        float cos;
+
+        // pegando o módulo dos catetos 
+        if (peccaries.X < 0)
+        {
+            peccaries.X *= -1;
+        }
+        if (peccaries.Y < 0)
+        {
+            peccaries.Y *= -1;
+        }
+
+        // Pegando a hipotenusa
+        hypotenuse = (int) Math.Sqrt((peccaries.X * peccaries.X) + (peccaries.Y * peccaries.Y));
+
+        // definindo o cosseno referente ao eixo
+        if (axle)
+        {
+            cos = peccaries.X / hypotenuse;
+        }
+        else
+        {
+            cos = peccaries.Y / hypotenuse;
+        }
+
+        return cos;
+    }
     // Função para pegar a direção do ricochete
     private Godot.Vector2 GetDir(Godot.Vector2 cord1, Godot.Vector2 cord2)
     {
