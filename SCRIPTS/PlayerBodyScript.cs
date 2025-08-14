@@ -47,7 +47,7 @@ public partial class PlayerBodyScript : CharacterBody2D
             dir = GetDir(this.Position, mouseCoords); // Pegando a direção do ricochete
             speed = new Godot.Vector2(0, 0); // resetando a velocidade
             // Aplicando o ricochete
-            speed.X = ricochet.X * GetCos(this.Position, mouseCoords, true) * dir.X;
+            speed.X += ricochet.X * GetCos(this.Position, mouseCoords, true) * dir.X;
             speed.Y += ricochet.Y * GetCos(this.Position, mouseCoords, false) * dir.Y;
             GD.Print("COS X = ", GetCos(this.Position, mouseCoords, true));
             GD.Print("COS Y = ", GetCos(this.Position, mouseCoords, false));
