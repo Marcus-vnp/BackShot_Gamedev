@@ -49,8 +49,6 @@ public partial class PlayerBodyScript : CharacterBody2D
             // Aplicando o ricochete
             speed.X += ricochet.X * GetCos(this.Position, mouseCoords, true) * dir.X;
             speed.Y += ricochet.Y * GetCos(this.Position, mouseCoords, false) * dir.Y;
-            GD.Print("COS X = ", GetCos(this.Position, mouseCoords, true));
-            GD.Print("COS Y = ", GetCos(this.Position, mouseCoords, false));
         }
 
         // aplicando as variações nos eixos de velocidade (causa tanto a gravidade quanto o ricochete)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bvmmtj4m431pf"]
+[gd_scene load_steps=5 format=3 uid="uid://bvmmtj4m431pf"]
 
 [ext_resource type="Script" uid="uid://bnf11u8b1j5i5" path="res://SCRIPTS/PlayerBodyScript.cs" id="1_pqno4"]
 [ext_resource type="Texture2D" uid="uid://b1dgvitqsmvho" path="res://SPRITES/playerPH.png" id="2_pqno4"]
+[ext_resource type="PackedScene" uid="uid://d3oneph7nlx5d" path="res://SCENES/SHOTGUN.tscn" id="3_1sqw6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8glmf"]
 size = Vector2(16, 16)
@@ -16,3 +17,6 @@ shape = SubResource("RectangleShape2D_8glmf")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
 texture = ExtResource("2_pqno4")
+
+[node name="Shotgun" parent="." instance=ExtResource("3_1sqw6")]
+position = Vector2(6, -1)

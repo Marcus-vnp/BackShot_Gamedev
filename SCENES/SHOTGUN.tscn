@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3oneph7nlx5d"]
+
+[ext_resource type="Texture2D" uid="uid://d3yywcohctq4x" path="res://SPRITES/arma 2.png" id="2_0vxkk"]
+[ext_resource type="Script" uid="uid://bp110msuymjvf" path="res://SCRIPTS/ShotgunScript.cs" id="2_esfch"]
+
+[node name="Shotgun" type="Node2D"]
+script = ExtResource("2_esfch")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6, -1)
+texture = ExtResource("2_0vxkk")
