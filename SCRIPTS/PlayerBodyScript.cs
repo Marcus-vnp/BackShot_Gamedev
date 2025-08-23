@@ -9,14 +9,17 @@ public partial class PlayerBodyScript : CharacterBody2D
     private Godot.Vector2 mouseCoords = new Godot.Vector2(0, 0); // Posição do mouse (X,Y)
     private Godot.Vector2 ricochet = new Godot.Vector2(100, 50); // Força do ricochete
     private Godot.Vector2 dir; // Direção do ricochete
+    public bool CanShoot = true; // Verifica se pode ou não atirar
+    private Timer timerShoot; // objeto do cooldown do tiro
+    private PackedScene projetilScene = GD.Load<PackedScene>("res://SCENES/PROJECTIL.tscn"); // cena objeto do projetil
     public override void _Ready()
     {
+        timerShoot = this.GetChild<Timer>(2); // pega o objeto do timer
         Position = new Godot.Vector2(590, 290); // DELETAR DEPOIS
     }
 
     public override void _Process(double delta)
     {
-
         if (IsOnFloor()) // Colisão com o chão
         {
             speed.Y = 0;
@@ -41,7 +44,8 @@ public partial class PlayerBodyScript : CharacterBody2D
             speed.Y = 0;
         }
 
-        if (Input.IsActionJustPressed("mouse_left_click")) // Pressiona Botão Esquerdo
+        // Verifica se pode atirar e se apertou o botão esquerdo
+        if (Input.IsActionJustPressed("mouse_left_click") && CanShoot)
         {
             mouseCoords = GetViewport().GetMousePosition(); // Pegando coordenadas do mouse
             dir = GetDir(this.Position, mouseCoords); // Pegando a direção do ricochete
@@ -49,6 +53,9 @@ public partial class PlayerBodyScript : CharacterBody2D
             // Aplicando o ricochete
             speed.X += ricochet.X * GetCos(this.Position, mouseCoords, true) * dir.X;
             speed.Y += ricochet.Y * GetCos(this.Position, mouseCoords, false) * dir.Y;
+            Shoot(new Godot.Vector2(GetCos(this.Position, mouseCoords, true) * dir.X * -1, GetCos(this.Position, mouseCoords, false) * dir.Y * -1)); // dispara projectil
+            CanShoot = false; // desliga o CanShoot
+            timerShoot.Start(); // inicia o cooldown
         }
 
         // aplicando as variações nos eixos de velocidade (causa tanto a gravidade quanto o ricochete)
@@ -56,6 +63,14 @@ public partial class PlayerBodyScript : CharacterBody2D
         MoveAndSlide();
     }
 
+    private void Shoot(Godot.Vector2 direction)
+    {
+        Node projectilNode = projetilScene.Instantiate();
+        this.GetParent().AddChild(projectilNode);
+        ProjectilScript projectil = projectilNode.GetChild<ProjectilScript>(0);
+        projectil.Position = new Godot.Vector2(this.Position.X + 10 * GetCos(this.Position, mouseCoords, true) * direction.X, this.Position.Y + 10 * GetCos(this.Position, mouseCoords, false) * direction.Y);
+        projectil.dir = direction;
+    }
     private float GetCos(Godot.Vector2 pCoords, Godot.Vector2 mCoords, bool axle)
     {
         Godot.Vector2 peccaries = pCoords - mCoords; // pegando os catetos
@@ -74,7 +89,7 @@ public partial class PlayerBodyScript : CharacterBody2D
         }
 
         // Pegando a hipotenusa
-        hypotenuse = (int) Math.Sqrt((peccaries.X * peccaries.X) + (peccaries.Y * peccaries.Y));
+        hypotenuse = (int)Math.Sqrt((peccaries.X * peccaries.X) + (peccaries.Y * peccaries.Y));
 
         // definindo o cosseno referente ao eixo
         if (axle)

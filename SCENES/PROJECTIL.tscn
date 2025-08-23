@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://brn3kke70lsww"]
+
+[ext_resource type="Texture2D" uid="uid://b1dgvitqsmvho" path="res://SPRITES/playerPH.png" id="1_5lbcc"]
+[ext_resource type="Script" uid="uid://cwuftjhppnwe7" path="res://SCRIPTS/ProjectilScript.cs" id="1_hsx3f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hsx3f"]
+radius = 2.0
+
+[node name="Projectil" type="Node2D"]
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_hsx3f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_hsx3f")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+self_modulate = Color(100, 72.18, 72.557, 1)
+position = Vector2(-1.19209e-07, 1.19209e-07)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_5lbcc")

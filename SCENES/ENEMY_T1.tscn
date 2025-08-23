@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgaugfc0r6srv"]
+
+[ext_resource type="Script" uid="uid://c8wtugm7atv7x" path="res://SCRIPTS/EnemyT1.cs" id="1_bxgn1"]
+[ext_resource type="Texture2D" uid="uid://b1dgvitqsmvho" path="res://SPRITES/playerPH.png" id="1_g45bb"]
+[ext_resource type="Script" uid="uid://xw2c4dpjj68y" path="res://SCRIPTS/TimerWalkEnemyT1.cs" id="3_b7hyv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5bc28"]
+size = Vector2(16, 16)
+
+[node name="EnemyT1" type="Node2D"]
+
+[node name="EnemyBody" type="CharacterBody2D" parent="."]
+script = ExtResource("1_bxgn1")
+
+[node name="Sprite2D" type="Sprite2D" parent="EnemyBody"]
+self_modulate = Color(0, 99.99, 1, 1)
+texture = ExtResource("1_g45bb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBody"]
+shape = SubResource("RectangleShape2D_5bc28")
+
+[node name="Timer" type="Timer" parent="EnemyBody"]
+wait_time = 2.0
+autostart = true
+ignore_time_scale = true
+script = ExtResource("3_b7hyv")

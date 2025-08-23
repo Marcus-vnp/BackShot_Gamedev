@@ -9,6 +9,7 @@ public partial class ShotgunScript : Node2D
 	private CharacterBody2D playerBody;
 	// variavel do Sprite da Shotgun
 	private Sprite2D spriteNode;
+	// variavel das coordenadas do Mouse
 	private Godot.Vector2 mouseCoords;
 	public override void _Ready()
 	{
@@ -22,16 +23,19 @@ public partial class ShotgunScript : Node2D
 
 	public override void _Process(double delta)
 	{
-		// pegando o CharacterBody do player
 		// pegando as coordenadas do mouse
 		mouseCoords = GetGlobalMousePosition();
+		// colocando o node da Shotgun junto a posição do CharacterBody do player
 		this.Position = playerBody.Position;
+		//Alterando a rotação do node da shotgun
 		LookAt(mouseCoords);
 
+		// invertendo a imagem em relação a posição do mouse
 		if (GetDir(this.Position, mouseCoords).X == 1)
 			spriteNode.FlipV = true;
 		else
 			spriteNode.FlipV = false;
+
 	}
 	private Godot.Vector2 GetDir(Godot.Vector2 cord1, Godot.Vector2 cord2)
 	{
@@ -56,4 +60,36 @@ public partial class ShotgunScript : Node2D
 		// Vai retornar a direção em relação da cord1
 		return dirCoord;
 	}
+	private float GetCos(Godot.Vector2 pCoords, Godot.Vector2 mCoords, bool axle)
+    {
+        Godot.Vector2 peccaries = pCoords - mCoords; // pegando os catetos
+        // declarando variavel da hipotenusa e do cosseno
+        int hypotenuse;
+        float cos;
+
+        // pegando o módulo dos catetos 
+        if (peccaries.X < 0)
+        {
+            peccaries.X *= -1;
+        }
+        if (peccaries.Y < 0)
+        {
+            peccaries.Y *= -1;
+        }
+
+        // Pegando a hipotenusa
+        hypotenuse = (int) Math.Sqrt((peccaries.X * peccaries.X) + (peccaries.Y * peccaries.Y));
+
+        // definindo o cosseno referente ao eixo
+        if (axle)
+        {
+            cos = peccaries.X / hypotenuse;
+        }
+        else
+        {
+            cos = peccaries.Y / hypotenuse;
+        }
+
+        return cos;
+    }
 }
